@@ -1,6 +1,7 @@
 # #数据并不总是以适合训练机器学习算法的最终处理形式出现。我们使用转换来对数据进行一些操作，使其适合训练。
 # 所有 TorchVision 数据集都有两个参数 - transform 用于修改训练用的数据（图片）
-# target_transform 用于修改标签 - 它们接受包含转换逻辑的可调用对象。torchvision.transforms 模块提供了几种常用的转换。
+# target_transform 用于修改标签 - 它们接受包含转换逻辑的可调用对象。
+# torchvision.transforms 模块提供了几种常用的转换。
 # FashionMNIST 的特征以 PIL 图像格式表示，标签为整数。为了训练，我们需要将特征转换为标准化的张量，将标签转换为 one-hot 编码的张量。为了进行这些转换，我们使用 ToTensor 和 Lambda。
 import torch
 from torchvision import datasets

@@ -52,8 +52,8 @@ tensor[:,1] = 0     # 让第二列全部置零
 print(tensor)
 
 # 连接多个tensors 你可以用torch.cat。沿着给定的维数串联tensors序列
-t1 = torch.cat([tensor, tensor, tensor], dim=1)
-print(t1)
+t1 = torch.cat([tensor, tensor, tensor], dim=0)
+print("t1:",t1)
 
 # #算术运算
 # 这个算的是矩阵惩乘法. y1, y2, y3 有相同的输出
