@@ -7,7 +7,7 @@ from pathlib import Path
 
 # 检查是否有可用的GPU
 device = "cuda"
-batch_size = 128
+batch_size = 64
 dataset_dir = Path("dataset")
 train_img_dir = dataset_dir / "MNIST" / "train"
 test_img_dir = dataset_dir / "MNIST" / "test"
@@ -32,18 +32,19 @@ test_DataLoader = DataLoader(dataset=test_Dataset, batch_size=batch_size, shuffl
 class MyModel(nn.Module):
     def __init__(self):
         super().__init__()
-        self.flatten = nn.Flatten()
         self.seq = nn.Sequential(
-            nn.Linear(28 * 28, 512),
+            nn.Conv2d(1,16,4,stride=1),
             nn.ReLU(),
-            nn.Linear(512, 128),
+            nn.Conv2d(16,64,16,stride=1),
             nn.ReLU(),
-            nn.Linear(128, 10),
+            nn.Conv2d(64, 8, 4, stride=1),
+            nn.ReLU(),
+            nn.Flatten(),
+            nn.Linear(7*7*8, 10),
         )
 
     def forward(self, x):
-        res = self.flatten(x)
-        res = self.seq(res)
+        res = self.seq(x)
         return res
 
 
@@ -83,11 +84,11 @@ def test_loop(DataLoader, model, loss_fn):
 
     test_loss /= batch_size
     correct /= size
-    torch.save(model, '手写数字线性层模型.pth')
+    torch.save(model, '手写数字卷积层模型2.pth')
     print(f"Test Error: \n Accuracy: {(100 * correct):>0.1f}%, Avg loss: {test_loss:>8f} \n")
 
 
-for t in range(100):
+for t in range(10000):
     print(f"Epoch {t + 1}\n-------------------------------")
     train_loop(train_DataLoader, model, loss_fn, optimizer)
     test_loop(test_DataLoader, model, loss_fn)
